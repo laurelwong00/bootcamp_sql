@@ -4,7 +4,57 @@ USE BOOTCAMP_EXERCISE1;
 CREATE TABLE Locations (
 	location_id INTEGER,
     street_adress VARCHAR(25),
-    postal_code VARCHAR(30)
+    postal_code VARCHAR(30),
+    city VARCHAR(30),
+    state_province VARCHAR(12),
+    country_id CHAR(2)
+);
+
+CREATE TABLE employees (
+	employee_id INTEGER,
+    first_name VARCHAR(20),
+    last_name VARCHAR(25),
+    email VARCHAR(25),
+    phone_number VARCHAR(20),
+    hire_date DATE,
+    job_id VARCHAR(10),
+    salary INTEGER,
+    commission_pct INTEGER,
+    manager_id INTEGER,
+    department_id INTEGER
+);
+
+CREATE TABLE jobs (
+	job_id VARCHAR(10),
+    job_title VARCHAR(35),
+    min_salary INTEGER,
+    max_salary INTEGER
+);
+
+CREATE TABLE countries (
+	country_id CHAR(2),
+    country_name VARCHAR(40),
+    region_id INTEGER
+);
+
+CREATE TABLE regions (
+	region_id INTEGER,
+    region_name VARCHAR(25)
+);
+
+CREATE TABLE departments(
+	department_id INTEGER,
+    department_name VARCHAR(30),
+    manager_id INTEGER,
+    location_id INTEGER
+);
+
+CREATE TABLE job_history(
+	employee_id INTEGER,
+    start_date DATE,
+    end_date DATE,
+    job_id VARCHAR(10),
+    department_id INTEGER
 );
 
 -- REGIONS

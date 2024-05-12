@@ -222,6 +222,55 @@ SELECT c.first_name, c.last_name, c.phone, c.email, o.total_amount, o.delivery_a
 FROM customer c INNER JOIN order2 o on c.id = o.customer_id
 WHERE total_amount > 30; -- execute after table join
 
+SELECT * FROM order2;
+-- insert into order2 values (5, 99, 'asdf', 12.33); -- customer table may not have id 99 
+
+ALTER TABLE order2
+ADD FOREIGN KEY(customer_id) references customer(id);
+
+
+CREATE TABLE customer3(
+	id INTEGER PRIMARY KEY AUTO_INCREMENT,
+	first_name VARCHAR(20),
+    last_name VARCHAR(20),
+    phone VARCHAR(50),
+    email VARCHAR(50)
+);
+
+CREATE TABLE Order3(
+	id INTEGER PRIMARY KEY AUTO_INCREMENT,
+    customer_id INTEGER,
+    delivery_address VARCHAR(100),
+    total_amount DECIMAL(10,2),
+    CONSTRAINT FK_CustomerOrder FOREIGN KEY(customer_id) references customer3(id)
+    );
+
+INSERT INTO customer3 VALUES (1, 'Vincent', 'lau', '852 12345678', 'vincent@gmail.com'),
+							(2, 'Oscar', 'lo', '852 87654321', 'oscar@gmail.com');
+                            
+INSERT INTO	customer3 VALUES(3, 'Jenny', 'lau', '852 41943841', 'jenny@gmail.com');
+INSERT INTO customer3 VALUES(4, 'Sally', 'Wong', '852 91827364', 'sally@gmail.com');
+
+SELECT c.first_name, c.last_name
+FROM customer3 c INNER JOIN order3 o on c.id = o.customer_id;
+
+-- Left Join
+-- all data in customer3 remain in result set
+SELECT c.first_name, c.last_name, IFNULL(o.delivery_address, 'unknown'), IFNULL(o.total_amount, 0)
+FROM customer3 c LEFT JOIN order3 o ON c.id = o.customer_id;
+
+SELECT c.first_name, c.last_name, o.delivery_address, ifnull(o.total_amount, 0)
+FROM customer3 c LEFT JOIN order3 o on c.id = o.customer_id
+WHERE o.customer_id is null;
+
+insert into order3 values (1, 2, 'ABC XYZ', 100.44);
+insert into order3 values (2, 2, 'xxxABC XYZ', 22.88);
+insert into order3 values (3, 1, 'aaABC XYZ', 12.12);
+insert into order3 values (4, 3, 'aaAfffffBC XYZ', 90.12);
+    
+-- with foreign key: you cannot add a child row with foreign key value not exists in parent primary key column
+INSERT INTO order3 VALUES(5, 4, 'XYZ', 90.12);
+
 
 CREATE TABLE computer_scientists(
 	id INT,
@@ -285,3 +334,9 @@ FROM computer_scientists c INNER JOIN winners w on c.id = w.recipient;
 
 SELECT DISTINCT c.ID, c.country_name
 FROM computer_scientists s INNER JOIN countries c on c.ID = s.nationality;
+
+
+
+SELECT 'hello' AS abc FROM DUAL
+UNION
+SELECT 'goodbye' AS abc FROM DUAL
